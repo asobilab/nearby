@@ -1,0 +1,32 @@
+{
+  "name": "asobilab/nearby",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name" : "coilo",
+      "email": "coilo.dev@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*",
+    "squizlabs/php_codesniffer": "*",
+    "phpmd/phpmd":"*",
+    "sebastian/phpcpd": "*",
+    "phploc/phploc": "*",
+    "satooshi/php-coveralls": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Asobilab\\Nearby\\": "lib"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Asobilab\\Nearby\\Test\\": "tests"
+    }
+  }
+}
