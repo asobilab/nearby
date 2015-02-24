@@ -1,4 +1,6 @@
 # Nearby
+[![Build Status](https://travis-ci.org/asobilab/nearby.svg?branch=master)](https://travis-ci.org/asobilab/nearby)
+[![Code Climate](https://codeclimate.com/github/asobilab/nearby/badges/gpa.svg)](https://codeclimate.com/github/asobilab/nearby)
 
 # License
 (The MIT License)
