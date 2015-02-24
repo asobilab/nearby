@@ -1,47 +1,47 @@
 <?php
 
+namespace Asobilab\Nearby;
+
 class Location
 {
-	private $latitude;  // GeodeticLatitude (測地緯度) - [一般的な「緯度」]
-	private $longitude; // GeodeticLongitude(測地経度)
+    // GeodeticLatitude (測地緯度) - [一般的な「緯度」]
+    protected $latitude;
+    // GeodeticLongitude(測地経度)
+    protected $longitude;
 
-	public Function __construct($lat,$lon)
-	{
-		self::setCoordinate($lat,$lon);
-	}
+    public function __construct($lat, $lon)
+    {
+        $this->setCoordinate($lat, $lon);
+    }
 
-	public Function setCoordinate($lat,$lon)
-	{
-		self::setLatitude($lat);
-		self::setLongitude($lon);
-	}
+    public function setCoordinate($lat,$lon)
+    {
+        $this->setLatitude($lat);
+        $this->setLongitude($lon);
+    }
 
-	public Function setLatitude($lat)
-	{
-		$this->latitude = $lat;
-	}
+    public function setLatitude($lat)
+    {
+        $this->latitude = $lat;
+    }
 
-	public Function setLongitude($lon)
-	{
-		$this->longitude = $lon;
-	}
+    public function setLongitude($lon)
+    {
+        $this->longitude = $lon;
+    }
 
-	public Function getCoordinate()
-	{
-		$lat = self::getLatitude();
-		$lon = self::getLongitude();
-		$coordinate = ['latitude' => "$lat" , 'longitude' => "$lon"];
-		return $coordinate;
-	}
+    public function getCoordinate()
+    {
+        return ['latitude'  => $this->getLatitude(), 'longitude' => $this->getLongitude()];
+    }
 
-	public Function getLatitude()
-	{
-		return $this->latitude;
-	}
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
 
-	public Function getLongitude()
-	{
-		return $this->longitude;
-	}
-
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
 }
