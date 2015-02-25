@@ -11,22 +11,7 @@ class Location
 
     public function __construct($lat, $lon)
     {
-        $this->setCoordinate($lat, $lon);
-    }
-
-    public function setCoordinate($lat,$lon)
-    {
-        $this->setLatitude($lat);
-        $this->setLongitude($lon);
-    }
-
-    public function setLatitude($lat)
-    {
         $this->latitude = $lat;
-    }
-
-    public function setLongitude($lon)
-    {
         $this->longitude = $lon;
     }
 
