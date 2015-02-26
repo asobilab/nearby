@@ -16,7 +16,7 @@ use Asobilab\Nearby\Location;
 /**
  *  Nearby testcase.
  */
-class NearbyTest extends  \PHPUnit_Framework_TestCase
+class NearbyTest extends BaseUnit
 {
     public function testVersion()
     {
