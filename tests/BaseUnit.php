@@ -10,7 +10,6 @@
 
 namespace Asobilab\Nearby\Test;
 
-
 /**
  *  BaseUnit class.
  */

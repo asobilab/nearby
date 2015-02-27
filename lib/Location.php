@@ -1,6 +1,7 @@
 <?php
 
 namespace Asobilab\Nearby;
+
 use Exception;
 
 class Location
@@ -16,12 +17,12 @@ class Location
             // 入力値のValiadtion(共通)
             if ($this->validateParams($lat) === false) {
                 throw new Exception('緯度に数値以外の指定がされています');
-            }else{
+            } else {
                 $latitude = floatval($lat);
             }
             if ($this->validateParams($lon) === false) {
                 throw new Exception('経度に数値以外の指定がされています');
-            }else{
+            } else {
                 $longitude = floatval($lon);
             }
             // 入力値のValidation(個別)
@@ -31,7 +32,7 @@ class Location
             if ($longitude < 0 || $longitude > 180) {
                 throw new Exception('経度の数値の範囲が不正です');
             }
-        } catch (Exception $e){
+        } catch (Exception $e) {
             die($e->getMessage());
         }
 
@@ -59,15 +60,13 @@ class Location
         // 値が数値型のみ許可
         if (is_float($input) | is_int($input) | is_double($input)) {
             return true;
-        }else{
+        } else {
             return false;
         }
         if (preg_match('/^([1-9][0-9]*|0)(.[0-9]+)?$/', $input)) {
             return true; // 正の整数か小数
-        }else{
+        } else {
             return false;
         }
-
     }
-    
 }

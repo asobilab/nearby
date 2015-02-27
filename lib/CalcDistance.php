@@ -1,6 +1,7 @@
 <?php
 
 namespace Asobilab\Nearby;
+
 require 'Location.php';
 
 class CalcDistance
@@ -19,7 +20,7 @@ class CalcDistance
      * @param   Location   $locB   終点緯度経度
      * @return  float               距離（m）
      */
-    public function distance_lambert(Location $locA, Location $locB)
+    public function distanceLambert(Location $locA, Location $locB)
     {
         // Convert Input Params
         $latA = $locA->getLatitude();
@@ -46,10 +47,10 @@ class CalcDistance
         $sd = acos(sin($P1)*sin($P2) + cos($P1)*cos($P2)*cos($lonA-$lonB));
 
         // Lambert-Andoyer Correction
-        $cos_sd = cos($sd/2);
-        $sin_sd = sin($sd/2);
-        $c = (sin($sd) - $sd) * pow(sin($P1)+sin($P2),2) / $cos_sd / $cos_sd;
-        $s = (sin($sd) + $sd) * pow(sin($P1)-sin($P2),2) / $sin_sd / $sin_sd;
+        $cos_sd = cos($sd / 2);
+        $sin_sd = sin($sd / 2);
+        $c = (sin($sd) - $sd) * pow(sin($P1) + sin($P2), 2) / $cos_sd / $cos_sd;
+        $s = (sin($sd) + $sd) * pow(sin($P1) - sin($P2), 2) / $sin_sd / $sin_sd;
         $delta = $F / 8.0 * ($c - $s);
 
         // Geodetic Distance
@@ -57,5 +58,4 @@ class CalcDistance
 
         return $distance;
     }
-
 }
