@@ -16,7 +16,7 @@ use Asobilab\Nearby\Location;
 /**
  *  Nearby testcase.
  */
-class NearbyTest extends  \PHPUnit_Framework_TestCase
+class NearbyTest extends BaseUnit
 {
     public function testVersion()
     {
@@ -29,5 +29,19 @@ class NearbyTest extends  \PHPUnit_Framework_TestCase
         $actual = $location->getCoordinate();
         $this->assertEquals(35.65858, $actual['latitude']);
         $this->assertEquals(139.745433, $actual['longitude']);
+    }
+
+    /**
+     *  @dataProvider      locationFailureProvider
+     *  @expectedException InvalidArgumentException
+     */
+    public function testLocationFailure($latitude, $longitude)
+    {
+        $location = new Location($latitude, $longitude);
+    }
+
+    public function locationFailureProvider()
+    {
+        return [[95.0, 120.0], [ 40.0, 210.0]];
     }
 }
