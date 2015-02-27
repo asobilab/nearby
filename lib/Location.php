@@ -1,6 +1,7 @@
 <?php
 
 namespace Asobilab\Nearby;
+use Exception;
 
 class Location
 {
