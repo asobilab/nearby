@@ -11,23 +11,27 @@ class Location
 
     public function __construct($lat, $lon)
     {
-        // 入力値のValiadtion(共通)
-        if ($this->validateParams($lat) === false) {
-            die('数値以外の指定がされています');
-        }else{
-            $latitude = floatval($lat);
-        }
-        if ($this->validateParams($lon) === false) {
-            die('数値以外の指定がされています');
-        }else{
-            $longitude = floatval($lon);
-        }
-        // 入力値のValidation(個別)
-        if ($latitude < 0 || $latitude > 90) {
-            die('数値の範囲が不正です');
-        }
-        if ($longitude < 0 || $longitude > 180) {
-            die('数値の範囲が不正です');
+        try {
+            // 入力値のValiadtion(共通)
+            if ($this->validateParams($lat) === false) {
+                throw new Exception('緯度に数値以外の指定がされています');
+            }else{
+                $latitude = floatval($lat);
+            }
+            if ($this->validateParams($lon) === false) {
+                throw new Exception('経度に数値以外の指定がされています');
+            }else{
+                $longitude = floatval($lon);
+            }
+            // 入力値のValidation(個別)
+            if ($latitude < 0 || $latitude > 90) {
+                throw new Exception('緯度の数値の範囲が不正です');
+            }
+            if ($longitude < 0 || $longitude > 180) {
+                throw new Exception('経度の数値の範囲が不正です');
+            }
+        } catch (Exception $e){
+            die($e->getMessage());
         }
 
         $this->latitude = $latitude;
