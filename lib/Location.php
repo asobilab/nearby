@@ -61,8 +61,4 @@ class Location
 
     }
     
-    private function validateLatitude($lat)
-    {
-
-    }
 }
