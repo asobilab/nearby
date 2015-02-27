@@ -57,7 +57,11 @@ class Location
     private function validateParams($input)
     {
         // 値が数値型のみ許可
-        if (!is_float($input) || !is_int($input)) return false;
+        if (is_float($input) | is_int($input) | is_double($input)) {
+            return true;
+        }else{
+            return false;
+        }
         if (preg_match('/^([1-9][0-9]*|0)(.[0-9]+)?$/', $input)) {
             return true; // 正の整数か小数
         }else{
