@@ -16,13 +16,9 @@ use Asobilab\Nearby\Location;
 /**
  *  Nearby testcase.
  */
-class NearbyTest extends BaseUnit
+class LocationTest extends BaseUnit
 {
-    public function testVersion()
-    {
-        $this->assertEquals("0.0.1", Nearby::VERSION);
-    }
-    
+
     /**
      * @dataProvider    locationProvider
      */
@@ -50,6 +46,10 @@ class NearbyTest extends BaseUnit
 
     public function locationFailureProvider()
     {
-        return [[95.0, 120.0], [ 40.0, 210.0]];
+        return [[95.0, 120.0],
+                [40.0, 210.0],
+                [mt_rand(-10000.0, -1.0), mt_rand(-10000.0, -1.0)],
+                [$this->sampleString(), $this->sampleString()],
+                [new \stdClass(), new \stdClass()]];
     }
 }
