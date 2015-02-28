@@ -6,13 +6,6 @@ require 'Location.php';
 
 class CalcDistance
 {
-    protected $locationA;
-    protected $locationB;
-
-    public function __construct()
-    {
-        
-    }
 
     /**
      * ２点間の直線距離を求める（Lambert-Andoyer）
@@ -20,7 +13,7 @@ class CalcDistance
      * @param   Location   $locB   終点緯度経度
      * @return  float               距離（m）
      */
-    public function distanceLambert(Location $locA, Location $locB)
+    public static function lambert(Location $locA, Location $locB)
     {
         // Convert Input Params
         $latA = $locA->getLatitude();
