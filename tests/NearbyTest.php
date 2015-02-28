@@ -22,13 +22,21 @@ class NearbyTest extends BaseUnit
     {
         $this->assertEquals("0.0.1", Nearby::VERSION);
     }
-
-    public function testLocation()
+    
+    /**
+     * @dataProvider    locationProvider
+     */
+    public function testLocation($latitude, $longitude)
     {
-        $location = new Location(35.65858, 139.745433);
+        $location = new Location($latitude, $longitude);
         $actual = $location->getCoordinate();
-        $this->assertEquals(35.65858, $actual['latitude']);
-        $this->assertEquals(139.745433, $actual['longitude']);
+        $this->assertEquals($latitude, $actual['latitude']);
+        $this->assertEquals($longitude, $actual['longitude']);
+    }
+
+    public function locationProvider()
+    {
+        return [[35.65858, 139.745433],[0.0, 0.0], [90.0, 180.0]];
     }
 
     /**
