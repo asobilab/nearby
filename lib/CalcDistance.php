@@ -29,9 +29,9 @@ class CalcDistance
         $lonB = $locA->getLongitude();
 
         // WGS84準拠楕円体
-        $A = 6378137.0;         // 赤道半径
-        $F = 1 / 298.257223563; // 扁平率
-        $B = $A * (1.0 - $F);   // 極半径  F = (A - B) / A
+        $equatorialRadius = 6378137.0;         // 赤道半径
+        $oblateness = 1 / 298.257223563; // 扁平率
+        $polarRadius = $equatorialRadius * (1.0 - $oblateness);   // 極半径  F = (赤道半径 - 扁平率) / 赤道半径
 
         // Convert Degrees To Radian
         $latA = deg2rad($latA);
@@ -40,21 +40,21 @@ class CalcDistance
         $lonB = deg2rad($lonB);
 
         // Convert Geodetic Latitude To Parametic Latitude
-        $P1 = atan($B/$A) * tan($latA);
-        $P2 = atan($B/$A) * tan($latB);
+        $parameticA = atan($polarRadius/$equatorialRadius) * tan($latA);
+        $parameticB = atan($polarRadius/$equatorialRadius) * tan($latB);
 
         // Spherical Distance
-        $sd = acos(sin($P1)*sin($P2) + cos($P1)*cos($P2)*cos($lonA-$lonB));
+        $sphericalDistance = acos(sin($parameticA)*sin($parameticB) + cos($parameticA)*cos($parameticB)*cos($lonA-$lonB));
 
         // Lambert-Andoyer Correction
-        $cos_sd = cos($sd / 2);
-        $sin_sd = sin($sd / 2);
-        $c = (sin($sd) - $sd) * pow(sin($P1) + sin($P2), 2) / $cos_sd / $cos_sd;
-        $s = (sin($sd) + $sd) * pow(sin($P1) - sin($P2), 2) / $sin_sd / $sin_sd;
-        $delta = $F / 8.0 * ($c - $s);
+        $cosSphericalDistance = cos($sphericalDistance / 2);
+        $sinSphericalDistance = sin($sphericalDistance / 2);
+        $cosGroup = (sin($sphericalDistance) - $sphericalDistance) * pow(sin($parameticA) + sin($parameticB), 2) / $cosSphericalDistance / $cosSphericalDistance;
+        $sinGroup = (sin($sphericalDistance) + $sphericalDistance) * pow(sin($parameticA) - sin($parameticB), 2) / $sinSphericalDistance / $sinSphericalDistance;
+        $delta = $oblateness / 8.0 * ($cosGroup - $sinGroup);
 
         // Geodetic Distance
-        $distance = $A * ($sd + $delta); // $distance is meter.
+        $distance = $equatorialRadius * ($sphericalDistance + $delta); // $distance is meter.
 
         return $distance;
     }
