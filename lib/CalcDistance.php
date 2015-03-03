@@ -13,12 +13,25 @@ class CalcDistance
     const POLAR_RADIUS = 6356752.3;         // 極半径 = (赤道半径 - 扁平率) / 赤道半径
 
     /**
-     * ２点間の直線距離を求める（Lambert-Andoyer）
-     * @param   Location   $locA   始点緯度経度
-     * @param   Location   $locB   終点緯度経度
+     * ２点間の直線距離を求める
+     * get a distance between two points.
+     * @param Location $locA 始点緯度経度（測地）
+     * @param Location $locB 終点緯度経度（測地）
+     * @return float          距離（m）
+     */
+    public static function getDistance(Location $locA, Location $locB)
+    {
+        return self::lambertAndoyer($locA, $locB);
+    }
+
+    /**
+     * ２点間の直線距離を求める（Lambert-Andoyer法）
+     * get a distance between two points.(Lambert-Andoyer method)
+     * @param   Location   $locA   始点緯度経度（測地）
+     * @param   Location   $locB   終点緯度経度（測地）
      * @return  float               距離（m）
      */
-    public static function lambertAndoyer(Location $locA, Location $locB)
+    private static function lambertAndoyer(Location $locA, Location $locB)
     {
         // Input Params And Convert Degrees To Radian
         $latA = deg2rad($locA->getLatitude());
@@ -26,24 +39,34 @@ class CalcDistance
         $latB = deg2rad($locB->getLatitude());
         $lonB = deg2rad($locB->getLongitude());
 
-        // Convert Geodetic Latitude To Parametic Latitude
-        $parameticA = atan(self::POLAR_RADIUS / self::EQUATORIAL_RADIUS) * tan($latA);
-        $parameticB = atan(self::POLAR_RADIUS / self::EQUATORIAL_RADIUS) * tan($latB);
+        // Convert Geodetic Latitude To Parametric Latitude
+        $latA = self::convertGeoToParaLatitude($latA);
+        $latB = self::convertGeoToParaLatitude($latB);
 
         // Spherical Distance
-        $sphericalDistance = acos(sin($parameticA)*sin($parameticB) + cos($parameticA)*cos($parameticB)*cos($lonA-$lonB));
+        $sphericalD = acos(sin($latA)*sin($latB) + cos($latA)*cos($latB)*cos($lonA-$lonB));
 
         // Lambert-Andoyer Correction
-        $cosSphericalDistance = cos($sphericalDistance / 2);
-        $sinSphericalDistance = sin($sphericalDistance / 2);
-        $cosGroup = (sin($sphericalDistance) - $sphericalDistance) * pow(sin($parameticA) + sin($parameticB), 2) / $cosSphericalDistance / $cosSphericalDistance;
-        $sinGroup = (sin($sphericalDistance) + $sphericalDistance) * pow(sin($parameticA) - sin($parameticB), 2) / $sinSphericalDistance / $sinSphericalDistance;
-        $delta = self::OBLATENESS / 8.0 * ($cosGroup - $sinGroup);
+        $cosSphericalD = cos($sphericalD / 2);
+        $sinSphericalD = sin($sphericalD / 2);
+        $cosSet = (sin($sphericalD) - $sphericalD) * pow(sin($latA) + sin($latB), 2) / $cosSphericalD / $cosSphericalD;
+        $sinSet = (sin($sphericalD) + $sphericalD) * pow(sin($latA) - sin($latB), 2) / $sinSphericalD / $sinSphericalD;
+        $delta = self::OBLATENESS / 8.0 * ($cosSet - $sinSet);
 
         // Geodetic Distance
-        $distance = self::EQUATORIAL_RADIUS * ($sphericalDistance + $delta); // $distance is meter.
+        $distance = self::EQUATORIAL_RADIUS * ($sphericalD + $delta); // $distance is meter.
 
         return $distance;
     }
 
+    /**
+     * 測地緯度をパラメトリック（化成）緯度に変換する
+     * convert Geodetic To Parametric.
+     * @param   float   $geoLat   測地緯度
+     * @return  float             パラメトリック緯度
+     */
+    private static function convertGeoToParaLatitude($geoLat)
+    {
+        return atan(self::POLAR_RADIUS / self::EQUATORIAL_RADIUS) * tan($geoLat);
+    }
 }
