@@ -18,19 +18,13 @@ class CalcDistance
      * @param   Location   $locB   終点緯度経度
      * @return  float               距離（m）
      */
-    public static function lambert(Location $locA, Location $locB)
+    public static function lambertAndoyer(Location $locA, Location $locB)
     {
-        // Convert Input Params
-        $latA = $locA->getLatitude();
-        $lonA = $locA->getLongitude();
-        $latB = $locB->getLatitude();
-        $lonB = $locA->getLongitude();
-
-        // Convert Degrees To Radian
-        $latA = deg2rad($latA);
-        $lonA = deg2rad($lonA);
-        $latB = deg2rad($latB);
-        $lonB = deg2rad($lonB);
+        // Input Params And Convert Degrees To Radian
+        $latA = deg2rad($locA->getLatitude());
+        $lonA = deg2rad($locA->getLongitude());
+        $latB = deg2rad($locB->getLatitude());
+        $lonB = deg2rad($locB->getLongitude());
 
         // Convert Geodetic Latitude To Parametic Latitude
         $parameticA = atan(self::$polarRadius/self::$equatorialRadius) * tan($latA);
