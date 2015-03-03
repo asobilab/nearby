@@ -2,7 +2,7 @@
 
 namespace Asobilab\Nearby;
 
-require 'Location.php';
+use Asobilab\Nearby\Location;
 
 class CalcDistance
 {
