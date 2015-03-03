@@ -44,14 +44,10 @@ class CalcDistance
         $latB = self::convertGeoToParaLatitude($latB);
 
         // Spherical Distance
-        $sphericalD = acos(sin($latA)*sin($latB) + cos($latA)*cos($latB)*cos($lonA-$lonB));
+        $sphericalD = self::getSphericalDistance($latA, $lonA, $latB, $lonB);
 
         // Lambert-Andoyer Correction
-        $cosSphericalD = cos($sphericalD / 2);
-        $sinSphericalD = sin($sphericalD / 2);
-        $cosSet = (sin($sphericalD) - $sphericalD) * pow(sin($latA) + sin($latB), 2) / $cosSphericalD / $cosSphericalD;
-        $sinSet = (sin($sphericalD) + $sphericalD) * pow(sin($latA) - sin($latB), 2) / $sinSphericalD / $sinSphericalD;
-        $delta = self::OBLATENESS / 8.0 * ($cosSet - $sinSet);
+        $delta = self::lambertAndoyerCorrection($latA, $latB, $sphericalD);
 
         // Geodetic Distance
         $distance = self::EQUATORIAL_RADIUS * ($sphericalD + $delta); // $distance is meter.
@@ -68,5 +64,34 @@ class CalcDistance
     private static function convertGeoToParaLatitude($geoLat)
     {
         return atan(self::POLAR_RADIUS / self::EQUATORIAL_RADIUS) * tan($geoLat);
+    }
+
+    /**
+     * @param float $paraLatA A地点のパラメトリック緯度
+     * @param float $geoLonA A地点の測地経度
+     * @param float $paraLatB B地点のパラメトリック緯度
+     * @param float $geoLonB B地点の測地経度
+     * @return float       球面上の距離
+     */
+    private static function getSphericalDistance($paraLatA, $geoLonA, $paraLatB, $geoLonB)
+    {
+        return acos(sin($paraLatA)*sin($paraLatB) + cos($paraLatA)*cos($paraLatB)*cos($geoLonA-$geoLonB));
+    }
+
+    /**
+     * @param float $paraLatA A地点のパラメトリック緯度
+     * @param float $paraLatB B地点のパラメトリック緯度
+     * @param float $sphericalD 球面上の距離
+     * @return float            補正
+     */
+    private static function lambertAndoyerCorrection($paraLatA, $paraLatB, $sphericalD)
+    {
+        $cosSphericalD = cos($sphericalD / 2);
+        $sinSphericalD = sin($sphericalD / 2);
+        $cosSet = (sin($sphericalD) - $sphericalD) * pow(sin($paraLatA) + sin($paraLatB), 2)
+                  / $cosSphericalD / $cosSphericalD;
+        $sinSet = (sin($sphericalD) + $sphericalD) * pow(sin($paraLatA) - sin($paraLatB), 2)
+                  / $sinSphericalD / $sinSphericalD;
+        return self::OBLATENESS / 8.0 * ($cosSet - $sinSet);
     }
 }
