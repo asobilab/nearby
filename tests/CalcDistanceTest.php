@@ -16,6 +16,8 @@ use Asobilab\Nearby\CalcDistance;
 
 Class CalcDistanceTest extends BaseUnit
 {
-
-
+    public function testCalcDistance()
+    {
+        
+    }
 }
