@@ -46,6 +46,10 @@ class CalcDistanceTest extends BaseUnit
         $locationA = new Location($latA, $lonA);
         $locationB = new Location($latB, $lonB);
         $calcResult = CalcDistance::getDistance($locationA, $locationB);
-        $this->assertEquals($calcResult, $distance);
+
+        $diff = abs($calcResult - $distance);
+        $permissibleRange = 0.01; // 1% is permitted.
+
+        $this->assertLessThanOrEqual($distance * $permissibleRange, $diff);
     }
 }
