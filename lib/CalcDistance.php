@@ -11,7 +11,7 @@ class CalcDistance
     const GRS80_A = 6378137.000; // 長半径A
     const GRS80_E2 = 0.00669438002301188; // 離心率e2
     const GRS80_NUMERATOR = 6335439.32708317; // A(1-e2)
-    
+
     /**
      * ２点間の直線距離を求める
      * get a distance between two points.

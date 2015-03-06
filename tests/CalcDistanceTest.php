@@ -50,6 +50,6 @@ class CalcDistanceTest extends BaseUnit
         $diff = abs($calcResult - $distance);
         $permissibleRange = 0.01; // 1% is permitted.
 
-        $this->assertLessThanOrEqual($distance * $permissibleRange, $diff);
+        $this->assertLessThanOrEqual($calcResult * $permissibleRange, $diff);
     }
 }
